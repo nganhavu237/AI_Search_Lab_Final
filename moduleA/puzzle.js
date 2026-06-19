@@ -1,87 +1,107 @@
+// =========================
+// STATE
+// =========================
 const GOAL_STATE = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 0]
+    [1,2,3],
+    [4,5,6],
+    [7,8,0]
 ];
 
 let startState = [
-    [8, 1, 3],
-    [4, 0, 2],
-    [7, 6, 5]
+    [8,1,3],
+    [4,0,2],
+    [7,6,5]
 ];
+
+let imageTiles = [];
+let useImageMode = false;
 
 // =========================
 // HELPERS
 // =========================
-function stateToString(state) {
+function stateToString(state){
     return state.flat().join(",");
 }
 
-function isGoal(state) {
+function isGoal(state){
     return stateToString(state) === stateToString(GOAL_STATE);
 }
 
-function findBlank(state) {
-    for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 3; c++) {
-            if (state[r][c] === 0) return [r, c];
+function findBlank(state){
+    for(let r=0;r<3;r++){
+        for(let c=0;c<3;c++){
+            if(state[r][c]===0) return [r,c];
         }
     }
-    return null;
 }
 
-function clone(state) {
-    return state.map(r => [...r]);
+function clone(state){
+    return state.map(r=>[...r]);
 }
 
 // =========================
 // NEIGHBORS
 // =========================
-function getNeighbors(state) {
-    const [r, c] = findBlank(state);
+function getNeighbors(state){
+    const [r,c] = findBlank(state);
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+    let res = [];
 
-    const dirs = [
-        [-1,0],[1,0],[0,-1],[0,1]
-    ];
+    for(let [dr,dc] of dirs){
+        let nr=r+dr,nc=c+dc;
 
-    let result = [];
-
-    for (let [dr, dc] of dirs) {
-        let nr = r + dr;
-        let nc = c + dc;
-
-        if (nr >= 0 && nr < 3 && nc >= 0 && nc < 3) {
+        if(nr>=0&&nr<3&&nc>=0&&nc<3){
             let newState = clone(state);
 
-            [newState[r][c], newState[nr][nc]] =
-            [newState[nr][nc], newState[r][c]];
+            [newState[r][c],newState[nr][nc]] =
+            [newState[nr][nc],newState[r][c]];
 
-            result.push(newState);
+            res.push(newState);
         }
     }
 
-    return result;
+    return res;
 }
 
 // =========================
-// RENDER PUZZLE
+// RENDER
 // =========================
-function renderPuzzle(state) {
+function renderPuzzle(state){
 
     let html = "<table>";
 
-    for (let r = 0; r < 3; r++) {
+    for(let r=0;r<3;r++){
         html += "<tr>";
 
-        for (let c = 0; c < 3; c++) {
+        for(let c=0;c<3;c++){
 
             let val = state[r][c];
 
-            html += `
-                <td onclick="moveTile(${r},${c})">
-                    ${val === 0 ? "" : val}
-                </td>
-            `;
+            html += `<td onclick="moveTile(${r},${c})">`;
+
+            if(val === 0){
+                html += "";
+            }
+            else if(useImageMode){
+
+                // find correct tile image based on value
+                let imgIndex = val - 1;
+
+                html += `
+                    <div style="
+                        width:100%;
+                        height:100%;
+                        background-image:url(${imageTiles[imgIndex]});
+                        background-size:300px 300px;
+                        background-position:${(imgIndex%3)*-100}px ${(Math.floor(imgIndex/3))*-100}px;
+                    "></div>
+                `;
+            }
+            else {
+                html += val;
+            }
+
+            html += `</td>`;
         }
 
         html += "</tr>";
@@ -93,61 +113,27 @@ function renderPuzzle(state) {
 }
 
 // =========================
-// MANUAL MOVE
+// MOVE TILE
 // =========================
-function moveTile(r, c) {
+function moveTile(r,c){
+    let [br,bc] = findBlank(startState);
 
-    let [br, bc] = findBlank(startState);
+    if(Math.abs(r-br)+Math.abs(c-bc)!==1) return;
 
-    if (Math.abs(r - br) + Math.abs(c - bc) !== 1) return;
-
-    [startState[r][c], startState[br][bc]] =
-    [startState[br][bc], startState[r][c]];
+    [startState[r][c],startState[br][bc]] =
+    [startState[br][bc],startState[r][c]];
 
     renderPuzzle(startState);
 
-    if (isGoal(startState)) {
+    if(isGoal(startState)){
         alert("Solved!");
     }
 }
 
 // =========================
-// DASHBOARD
-// =========================
-function updateDashboard(name, result, time) {
-
-    document.getElementById("algorithm").textContent = name;
-    document.getElementById("nodes").textContent = result.nodesExpanded;
-    document.getElementById("length").textContent = result.cost;
-    document.getElementById("time").textContent = time + " ms";
-}
-
-// =========================
-// ANIMATION
-// =========================
-function animateSolution(path) {
-
-    let i = 0;
-
-    let interval = setInterval(() => {
-
-        if (i >= path.length) {
-            clearInterval(interval);
-            return;
-        }
-
-        startState = path[i].map(r => [...r]);
-        renderPuzzle(startState);
-
-        i++;
-
-    }, 400);
-}
-
-// =========================
 // SHUFFLE
 // =========================
-function shufflePuzzle() {
+function shufflePuzzle(){
 
     let state = [
         [1,2,3],
@@ -155,203 +141,260 @@ function shufflePuzzle() {
         [7,8,0]
     ];
 
-    for (let i = 0; i < 50; i++) {
-        let neighbors = getNeighbors(state);
-        state = neighbors[Math.floor(Math.random() * neighbors.length)];
+    for(let i=0;i<50;i++){
+        let n = getNeighbors(state);
+        state = n[Math.floor(Math.random()*n.length)];
     }
 
     startState = state;
+
+    // ❗ KEEP IMAGE MODE ON
+    // DO NOT reset useImageMode here
+
     renderPuzzle(startState);
 }
 
 // =========================
-// RUN BFS
+// IMAGE GENERATOR
 // =========================
-function bfs(startState) {
+function generateImagePuzzle(){
 
-    let queue = [{
-        state: startState,
-        path: [startState]
-    }];
+    let file = document.getElementById("imageUpload").files[0];
+    if(!file){
+        alert("Upload image first");
+        return;
+    }
 
-    let visited = new Set();
-    visited.add(stateToString(startState));
+    let reader = new FileReader();
 
-    let nodesExpanded = 0;
+    reader.onload = function(e){
 
-    while (queue.length) {
+        let img = new Image();
+        img.src = e.target.result;
 
-        let { state, path } = queue.shift();
-        nodesExpanded++;
+        img.onload = function(){
 
-        if (isGoal(state)) {
-            return {
-                path,
-                nodesExpanded,
-                cost: path.length - 1
-            };
+            let canvas = document.createElement("canvas");
+            let ctx = canvas.getContext("2d");
+
+            // FIX: use full image size first (not forced stretch)
+            let size = Math.min(img.width, img.height);
+            canvas.width = size;
+            canvas.height = size;
+
+            // crop center square (prevents face distortion)
+            let offsetX = (img.width - size) / 2;
+            let offsetY = (img.height - size) / 2;
+
+            ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, size, size);
+
+            imageTiles = [];
+
+            let tileSize = size / 3;
+
+            for(let r=0;r<3;r++){
+                for(let c=0;c<3;c++){
+
+                    let temp = document.createElement("canvas");
+                    temp.width = tileSize;
+                    temp.height = tileSize;
+
+                    let tctx = temp.getContext("2d");
+
+                    tctx.drawImage(
+                        canvas,
+                        c * tileSize,
+                        r * tileSize,
+                        tileSize,
+                        tileSize,
+                        0,
+                        0,
+                        tileSize,
+                        tileSize
+                    );
+
+                    imageTiles.push(temp.toDataURL());
+                }
+            }
+
+            useImageMode = true;
+            renderPuzzle(startState);
+
+            alert("Image puzzle ready!");
+        };
+    };
+
+    reader.readAsDataURL(file);
+}
+
+// =========================
+// ANIMATION
+// =========================
+function animate(path){
+
+    let i = 0;
+
+    let interval = setInterval(() => {
+        if(i >= path.length){
+            clearInterval(interval);
+            return;
         }
 
-        for (let next of getNeighbors(state)) {
-            let key = stateToString(next);
+        startState = path[i].map(r=>[...r]);
+        renderPuzzle(startState);
+        i++;
+    }, 400);
+}
 
-            if (!visited.has(key)) {
-                visited.add(key);
+// =========================
+// BFS
+// =========================
+function bfs(start){
 
-                queue.push({
-                    state: next,
-                    path: [...path, next]
-                });
+    let queue = [{state:start,path:[start]}];
+    let visited = new Set([stateToString(start)]);
+    let nodes = 0;
+
+    while(queue.length){
+        let {state,path} = queue.shift();
+        nodes++;
+
+        if(isGoal(state)){
+            return {path,nodesExpanded:nodes,cost:path.length-1};
+        }
+
+        for(let n of getNeighbors(state)){
+            let k = stateToString(n);
+            if(!visited.has(k)){
+                visited.add(k);
+                queue.push({state:n,path:[...path,n]});
             }
         }
     }
-
-    return null;
 }
 
 // =========================
 // DIJKSTRA
 // =========================
-function dijkstra(startState) {
+function dijkstra(start){
 
-    let pq = [{
-        state: startState,
-        path: [startState],
-        cost: 0
-    }];
-
+    let pq = [{state:start,path:[start],cost:0}];
     let visited = new Set();
-    let nodesExpanded = 0;
+    let nodes = 0;
 
-    while (pq.length) {
+    while(pq.length){
 
-        pq.sort((a,b) => a.cost - b.cost);
+        pq.sort((a,b)=>a.cost-b.cost);
 
-        let { state, path, cost } = pq.shift();
-        nodesExpanded++;
-
-        if (isGoal(state)) {
-            return { path, nodesExpanded, cost };
-        }
+        let {state,path,cost} = pq.shift();
+        nodes++;
 
         let key = stateToString(state);
-        if (visited.has(key)) continue;
+        if(visited.has(key)) continue;
         visited.add(key);
 
-        for (let next of getNeighbors(state)) {
+        if(isGoal(state)){
+            return {path,nodesExpanded:nodes,cost};
+        }
 
-            let k = stateToString(next);
-
-            if (!visited.has(k)) {
-                pq.push({
-                    state: next,
-                    path: [...path, next],
-                    cost: cost + 1
-                });
+        for(let n of getNeighbors(state)){
+            let k = stateToString(n);
+            if(!visited.has(k)){
+                pq.push({state:n,path:[...path,n],cost:cost+1});
             }
         }
     }
-
-    return null;
 }
 
 // =========================
 // ASTAR
 // =========================
-function manhattan(state) {
+function manhattan(state){
+    let d = 0;
 
-    let dist = 0;
-
-    for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 3; c++) {
-
+    for(let r=0;r<3;r++){
+        for(let c=0;c<3;c++){
             let v = state[r][c];
-            if (v === 0) continue;
+            if(v===0) continue;
 
-            let gr = Math.floor((v - 1) / 3);
-            let gc = (v - 1) % 3;
+            let gr = Math.floor((v-1)/3);
+            let gc = (v-1)%3;
 
-            dist += Math.abs(r - gr) + Math.abs(c - gc);
+            d += Math.abs(r-gr)+Math.abs(c-gc);
         }
     }
 
-    return dist;
+    return d;
 }
 
-function astar(startState) {
+function astar(start){
 
-    let open = [{
-        state: startState,
-        path: [startState],
-        g: 0,
-        h: manhattan(startState)
-    }];
-
+    let open = [{state:start,path:[start],g:0}];
     let visited = new Set();
-    let nodesExpanded = 0;
+    let nodes = 0;
 
-    while (open.length) {
+    while(open.length){
 
-        open.sort((a,b) => (a.g + a.h) - (b.g + b.h));
+        open.sort((a,b)=>
+            (a.g+manhattan(a.state))-(b.g+manhattan(b.state))
+        );
 
-        let { state, path, g } = open.shift();
-        nodesExpanded++;
-
-        if (isGoal(state)) {
-            return { path, nodesExpanded, cost: g };
-        }
+        let {state,path,g} = open.shift();
+        nodes++;
 
         let key = stateToString(state);
-        if (visited.has(key)) continue;
+        if(visited.has(key)) continue;
         visited.add(key);
 
-        for (let next of getNeighbors(state)) {
+        if(isGoal(state)){
+            return {path,nodesExpanded:nodes,cost:g};
+        }
 
-            let k = stateToString(next);
-
-            if (!visited.has(k)) {
-                open.push({
-                    state: next,
-                    path: [...path, next],
-                    g: g + 1,
-                    h: manhattan(next)
-                });
+        for(let n of getNeighbors(state)){
+            let k = stateToString(n);
+            if(!visited.has(k)){
+                open.push({state:n,path:[...path,n],g:g+1});
             }
         }
     }
-
-    return null;
 }
 
 // =========================
 // RUN FUNCTIONS
 // =========================
-function runBFS() {
-    let t = performance.now();
+function runBFS(){
     let res = bfs(startState);
-    let t2 = performance.now();
-
-    updateDashboard("BFS", res, (t2 - t).toFixed(2));
-    animateSolution(res.path);
+    if(!res) return alert("No solution");
+    updateDashboard("BFS",res,res.cost);
+    animate(res.path);
 }
 
-function runDijkstra() {
-    let t = performance.now();
+function runDijkstra(){
     let res = dijkstra(startState);
-    let t2 = performance.now();
-
-    updateDashboard("Dijkstra", res, (t2 - t).toFixed(2));
-    animateSolution(res.path);
+    if(!res) return alert("No solution");
+    updateDashboard("Dijkstra",res,res.cost);
+    animate(res.path);
 }
 
-function runAStar() {
-    let t = performance.now();
+function runAStar(){
     let res = astar(startState);
-    let t2 = performance.now();
-
-    updateDashboard("A*", res, (t2 - t).toFixed(2));
-    animateSolution(res.path);
+    if(!res) return alert("No solution");
+    updateDashboard("A*",res,res.cost);
+    animate(res.path);
 }
 
+// =========================
+// DASHBOARD
+// =========================
+function updateDashboard(name,res,time){
+
+    document.getElementById("algorithm").textContent = name;
+    document.getElementById("nodes").textContent = res.nodesExpanded;
+    document.getElementById("length").textContent = res.cost;
+    document.getElementById("time").textContent = time;
+}
+
+// =========================
 // INIT
+// =========================
 renderPuzzle(startState);
