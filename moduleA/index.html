@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Search Lab - 8 Puzzle</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>8 Puzzle AI Solver</h1>
+
+    <!-- IMAGE MODE -->
+    <h3>Image Puzzle Mode</h3>
+
+    <input type="file" id="imageUpload" accept="image/*">
+    <button onclick="generateImagePuzzle()">Generate Image Puzzle</button>
+
+    <hr>
+
+    <!-- CONTROLS -->
+    <button onclick="shufflePuzzle()">Shuffle Puzzle</button>
+    <button onclick="runBFS()">Run BFS</button>
+    <button onclick="runDijkstra()">Run Dijkstra</button>
+    <button onclick="runAStar()">Run A*</button>
+
+    <h2>Current Puzzle</h2>
+    <div id="puzzle"></div>
+
+    <h2>Performance Dashboard</h2>
+
+    <div id="dashboard">
+        <p><strong>Algorithm:</strong> <span id="algorithm">-</span></p>
+        <p><strong>Nodes Expanded:</strong> <span id="nodes">-</span></p>
+        <p><strong>Solution Length:</strong> <span id="length">-</span></p>
+        <p><strong>Decision Time:</strong> <span id="time">-</span></p>
+    </div>
+
+    <!-- ONLY ONE JS FILE NOW -->
+    <script src="puzzle.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+ body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Title */
+h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Center container feel */
+#puzzle, #dashboard, #output {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* Puzzle grid */
+table {
+    margin: auto;
+    border-collapse: collapse;
+}
+
+/* Tiles */
+td {
+    width: 90px;
+    height: 90px;
+    border: 2px solid #ddd;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    background: white;
+}
+
+td:hover {
+    background: #f0f4ff;
+    transform: scale(1.03);
+}
+
+/* Buttons */
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #4a6cf7;
+    color: white;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #3a57d6;
+}
+
+/* File input */
+input[type="file"] {
+    margin: 10px;
+}
+
+/* Dashboard text */
+#dashboard p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+/* Image tiles */
+td div {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
