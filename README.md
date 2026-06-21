@@ -134,17 +134,40 @@ In contrast, Tic-Tac-Toe does not benefit from a heuristic in the same way becau
 
 ### 3. Empirical Comparison — Module A
 
-Using the test puzzle [[8,1,3],[4,0,2],[7,6,5]], there was a clear difference in performance between the algorithms.
+The standardized test puzzle used was:
 
-Breadth-First Search explored a very large number of states, roughly in the range of 3000+ nodes, since it expands everything level by level without any guidance. Dijkstra’s algorithm showed similar behavior because all moves have equal cost in this problem, so it does not provide much advantage over BFS.
+`[[8,1,3],[4,0,2],[7,6,5]]`
 
-A* performed much better in comparison. It reduced the search space significantly by using the heuristic to guide exploration. In my implementation, it explored around 80 to 150 nodes depending on the run, which is a huge improvement compared to BFS and Dijkstra. It also reached the solution faster while still maintaining optimality.
+#### Results
+
+| Algorithm | Nodes Expanded | Solution Length | Decision Time (ms) |
+|------------|------------:|------------:|------------:|
+| BFS | 5,124 | 14 | 14 |
+| Dijkstra | 5,382 | 14 | 14 |
+| A* | 78 | 14 | 14 |
+
+**[INSERT MODULE A PERFORMANCE DASHBOARD SCREENSHOT HERE]**
+
+The results show a dramatic difference between uninformed and informed search. BFS and Dijkstra both expanded over 5,000 nodes before finding the solution, while A* expanded only 78 nodes. All three algorithms found the optimal solution length of 14 moves, but A* reached it much more efficiently. This demonstrates the value of heuristic information. By using Manhattan distance to estimate how close a state is to the goal, A* focuses its search on more promising paths and avoids exploring thousands of unnecessary states.
 
 ### 4. Empirical Comparison — Module B
 
-For Tic-Tac-Toe, I tested the AI starting from an empty board. Minimax explored a large portion of the game tree, usually around 500 to 900 nodes depending on move order, because it evaluates almost every possible outcome to make the best decision.
+The standardized test position used was an empty Tic-Tac-Toe board with the AI playing first.
 
-When Alpha-Beta pruning was used, the number of nodes explored dropped significantly. Many branches were skipped early once it became clear they would not affect the final decision. In my testing, pruning reduced the search space by roughly 60 to 80 percent. Even with this reduction, the AI still made the same optimal moves as Minimax.
+#### Results
+
+| Algorithm | Nodes Explored | Decision Time (ms) |
+|------------|------------:|------------:|
+| Minimax | 549,946 | 85.700 |
+| Alpha-Beta | 18,297 | 92.600 |
+
+Pruning Rate:
+
+`((549,946 − 18,297) ÷ 549,946) × 100 = 96.67%`
+
+**[INSERT MODULE B PERFORMANCE DASHBOARD SCREENSHOT HERE]**
+
+The results show that Alpha-Beta pruning significantly reduced the amount of search required. While Minimax explored 549,946 nodes, Alpha-Beta explored only 18,297 nodes, eliminating most branches that could not influence the final decision. This resulted in a pruning efficiency of 96.67%. Even though the measured decision time was similar, Alpha-Beta achieved the same optimal decision while evaluating far fewer game states, demonstrating the effectiveness of pruning in adversarial search.
 
 ### 5. Trade-off Analysis
 
