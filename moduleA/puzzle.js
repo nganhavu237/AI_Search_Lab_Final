@@ -1,6 +1,3 @@
-// =========================
-// STATE
-// =========================
 const GOAL_STATE = [
     [1,2,3],
     [4,5,6],
@@ -16,9 +13,6 @@ let startState = [
 let imageTiles = [];
 let useImageMode = false;
 
-// =========================
-// HELPERS
-// =========================
 function stateToString(state){
     return state.flat().join(",");
 }
@@ -39,9 +33,6 @@ function clone(state){
     return state.map(r=>[...r]);
 }
 
-// =========================
-// NEIGHBORS
-// =========================
 function getNeighbors(state){
     const [r,c] = findBlank(state);
     const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
@@ -63,9 +54,6 @@ function getNeighbors(state){
     return res;
 }
 
-// =========================
-// RENDER
-// =========================
 function renderPuzzle(state){
 
     let html = "<table>";
@@ -111,9 +99,6 @@ function renderPuzzle(state){
     document.getElementById("puzzle").innerHTML = html;
 }
 
-// =========================
-// MOVE TILE
-// =========================
 function moveTile(r,c){
     let [br,bc] = findBlank(startState);
 
@@ -129,9 +114,6 @@ function moveTile(r,c){
     }
 }
 
-// =========================
-// SHUFFLE
-// =========================
 function shufflePuzzle(){
 
     let state = [
@@ -147,15 +129,9 @@ function shufflePuzzle(){
 
     startState = state;
 
-    // KEEP IMAGE MODE ON
-    // DO NOT reset useImageMode here
-
     renderPuzzle(startState);
 }
 
-// =========================
-// IMAGE GENERATOR
-// =========================
 function generateImagePuzzle(){
 
     let file = document.getElementById("imageUpload").files[0];
@@ -176,12 +152,10 @@ function generateImagePuzzle(){
             let canvas = document.createElement("canvas");
             let ctx = canvas.getContext("2d");
 
-            // FIX: use full image size first (not forced stretch)
             let size = Math.min(img.width, img.height);
             canvas.width = size;
             canvas.height = size;
 
-            // crop center square (prevents face distortion)
             let offsetX = (img.width - size) / 2;
             let offsetY = (img.height - size) / 2;
 
@@ -226,9 +200,6 @@ function generateImagePuzzle(){
     reader.readAsDataURL(file);
 }
 
-// =========================
-// ANIMATION
-// =========================
 function animate(path){
 
     let i = 0;
@@ -245,9 +216,6 @@ function animate(path){
     }, 400);
 }
 
-// =========================
-// BFS
-// =========================
 function bfs(start){
 
     let queue = [{state:start,path:[start]}];
@@ -272,9 +240,6 @@ function bfs(start){
     }
 }
 
-// =========================
-// DIJKSTRA
-// =========================
 function dijkstra(start){
 
     let pq = [{state:start,path:[start],cost:0}];
@@ -305,9 +270,6 @@ function dijkstra(start){
     }
 }
 
-// =========================
-// ASTAR
-// =========================
 function manhattan(state){
     let d = 0;
 
@@ -358,9 +320,6 @@ function astar(start){
     }
 }
 
-// =========================
-// RUN FUNCTIONS
-// =========================
 function runBFS(){
     let res = bfs(startState);
     if(!res) return alert("No solution");
@@ -382,9 +341,6 @@ function runAStar(){
     animate(res.path);
 }
 
-// =========================
-// DASHBOARD
-// =========================
 function updateDashboard(name,res,time){
 
     document.getElementById("algorithm").textContent = name;
@@ -393,7 +349,4 @@ function updateDashboard(name,res,time){
     document.getElementById("time").textContent = time;
 }
 
-// =========================
-// INIT
-// =========================
 renderPuzzle(startState);
