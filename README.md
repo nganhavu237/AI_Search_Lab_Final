@@ -168,7 +168,7 @@ The standardized test position used was an empty Tic-Tac-Toe board with the AI p
 | Algorithm | Nodes Explored | Decision Time (ms) |
 |------------|------------:|------------:|
 | Minimax | 549,946 | 83.000 |
-| Alpha-Beta | 18,297 | 56.6800 |
+| Alpha-Beta | 18,297 | 56.800 |
 
 Pruning Rate:
 
