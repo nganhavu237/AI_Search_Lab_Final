@@ -10,84 +10,41 @@
 
 <body>
 
-<div class="game-wrapper">
+<h1>8 Puzzle AI Solver</h1>
 
-    <h1>8 Puzzle AI Solver</h1>
-
-    <a href="../index.html">
-        <button class="home-button">
-            Back to AI Search Lab
-        </button>
-    </a>
-
-
-    <h3>Image Puzzle Mode</h3>
-
-    <input type="file" id="imageUpload" accept="image/*">
-
-    <button onclick="generateImagePuzzle()">
-        Generate Image Puzzle
+<div class="home-container">
+    <button class="home-button" onclick="location.href='../index.html'">
+        Back to AI Search Lab
     </button>
-
-
-    <hr>
-
-
-    <div class="controls">
-
-        <button onclick="shufflePuzzle()">
-            Shuffle Puzzle
-        </button>
-
-        <button onclick="runBFS()">
-            Run BFS
-        </button>
-
-        <button onclick="runDijkstra()">
-            Run Dijkstra
-        </button>
-
-        <button onclick="runAStar()">
-            Run A*
-        </button>
-
-    </div>
-
-
-    <h2>Current Puzzle</h2>
-
-    <div id="puzzle"></div>
-
-
-    <h2>Performance Dashboard</h2>
-
-    <div id="dashboard">
-
-        <p>
-            <strong>Algorithm:</strong>
-            <span id="algorithm">-</span>
-        </p>
-
-        <p>
-            <strong>Nodes Expanded:</strong>
-            <span id="nodes">-</span>
-        </p>
-
-        <p>
-            <strong>Solution Length:</strong>
-            <span id="length">-</span>
-        </p>
-
-        <p>
-            <strong>Decision Time:</strong>
-            <span id="time">-</span>
-        </p>
-
-    </div>
-
 </div>
 
+<!-- IMAGE MODE -->
+<h3>Image Puzzle Mode</h3>
 
+<input type="file" id="imageUpload" accept="image/*">
+<button onclick="generateImagePuzzle()">Generate Image Puzzle</button>
+
+<hr>
+
+<!-- CONTROLS -->
+<button onclick="shufflePuzzle()">Shuffle Puzzle</button>
+<button onclick="runBFS()">Run BFS</button>
+<button onclick="runDijkstra()">Run Dijkstra</button>
+<button onclick="runAStar()">Run A*</button>
+
+<h2>Current Puzzle</h2>
+<div id="puzzle"></div>
+
+<h2>Performance Dashboard</h2>
+
+<div id="dashboard">
+    <p><strong>Algorithm:</strong> <span id="algorithm">-</span></p>
+    <p><strong>Nodes Expanded:</strong> <span id="nodes">-</span></p>
+    <p><strong>Solution Length:</strong> <span id="length">-</span></p>
+    <p><strong>Decision Time:</strong> <span id="time">-</span></p>
+</div>
+
+<!-- ONLY ONE JS FILE NOW -->
 <script src="puzzle.js"></script>
 
 </body>

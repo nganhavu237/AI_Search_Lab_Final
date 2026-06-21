@@ -84,7 +84,6 @@ function renderPuzzle(state){
             }
             else if(useImageMode){
 
-                // find correct tile image based on value
                 let imgIndex = val - 1;
 
                 html += `
@@ -92,8 +91,8 @@ function renderPuzzle(state){
                         width:100%;
                         height:100%;
                         background-image:url(${imageTiles[imgIndex]});
-                        background-size:300px 300px;
-                        background-position:${(imgIndex%3)*-100}px ${(Math.floor(imgIndex/3))*-100}px;
+                        background-size:100% 100%;
+                        background-repeat:no-repeat;
                     "></div>
                 `;
             }
@@ -148,7 +147,7 @@ function shufflePuzzle(){
 
     startState = state;
 
-    // ❗ KEEP IMAGE MODE ON
+    // KEEP IMAGE MODE ON
     // DO NOT reset useImageMode here
 
     renderPuzzle(startState);
