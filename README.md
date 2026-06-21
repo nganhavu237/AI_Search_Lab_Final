@@ -160,4 +160,4 @@ Overall, this project shows that the efficiency of AI search depends heavily on 
 
 ## Heuristic Justification
 
-For the 8-puzzle, Manhattan distance is used as the heuristic in A*. It calculates how far each tile is from its correct position in the goal state by counting the number of horizontal and vertical moves needed. This heuristic is admissible because it never overestimates the actual cost — each move can only shift a tile one step closer to its goal position, so the estimated cost is always less than or equal to the true number of moves required.
+For the 8-puzzle, Manhattan distance is used as the heuristic in A*. It calculates how far each tile is from its correct position in the goal state by counting the number of horizontal and vertical moves needed. This heuristic is admissible because it never overestimates the actual cost-each move can only shift a tile one step closer to its goal position, so the estimated cost is always less than or equal to the true number of moves required.
