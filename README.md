@@ -159,6 +159,10 @@ The results show a dramatic difference between uninformed and informed search. B
 
 The standardized test position used was an empty Tic-Tac-Toe board with the AI playing first.
 
+<img width="643" height="780" alt="Image" src="https://github.com/user-attachments/assets/546f8c71-c5d0-4810-8cbb-8c1c0c19d6be" />
+
+<img width="636" height="775" alt="Image" src="https://github.com/user-attachments/assets/ffd2bc09-9a02-480e-b79c-19db1ed9b72b" />
+
 #### Results
 
 | Algorithm | Nodes Explored | Decision Time (ms) |
