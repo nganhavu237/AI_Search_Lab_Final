@@ -153,3 +153,7 @@ For game playing, Minimax is reliable because it always finds the best move assu
 ### Conclusion
 
 Overall, this project shows that the efficiency of AI search depends heavily on how much unnecessary exploration can be reduced. In the 8-Puzzle, heuristic guidance makes a huge difference by focusing the search on better paths. In Tic-Tac-Toe, pruning improves performance by removing branches that do not affect the final decision. While both problems use search trees, the way they are optimized depends on whether the problem is single-agent or adversarial.
+
+## Heuristic Justification
+
+For the 8-puzzle, Manhattan distance is used as the heuristic in A*. It calculates how far each tile is from its correct position in the goal state by counting the number of horizontal and vertical moves needed. This heuristic is admissible because it never overestimates the actual cost — each move can only shift a tile one step closer to its goal position, so the estimated cost is always less than or equal to the true number of moves required.
