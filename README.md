@@ -138,6 +138,12 @@ The standardized test puzzle used was:
 
 `[[8,1,3],[4,0,2],[7,6,5]]`
 
+<img width="427" height="789" alt="Image" src="https://github.com/user-attachments/assets/03995273-62c6-40ec-8981-f76ce3291a40" />
+
+<img width="432" height="790" alt="Image" src="https://github.com/user-attachments/assets/ba987df7-4eac-4ccf-b266-772aa3e4e890" />
+
+<img width="429" height="786" alt="Image" src="https://github.com/user-attachments/assets/40534485-accf-4f8a-a230-463f41b59025" />
+
 #### Results
 
 | Algorithm | Nodes Expanded | Solution Length | Decision Time (ms) |
