@@ -146,7 +146,6 @@ The standardized test puzzle used was:
 | Dijkstra | 5,382 | 14 | 14 |
 | A* | 78 | 14 | 14 |
 
-**[INSERT MODULE A PERFORMANCE DASHBOARD SCREENSHOT HERE]**
 
 The results show a dramatic difference between uninformed and informed search. BFS and Dijkstra both expanded over 5,000 nodes before finding the solution, while A* expanded only 78 nodes. All three algorithms found the optimal solution length of 14 moves, but A* reached it much more efficiently. This demonstrates the value of heuristic information. By using Manhattan distance to estimate how close a state is to the goal, A* focuses its search on more promising paths and avoids exploring thousands of unnecessary states.
 
@@ -165,7 +164,6 @@ Pruning Rate:
 
 `((549,946 − 18,297) ÷ 549,946) × 100 = 96.67%`
 
-**[INSERT MODULE B PERFORMANCE DASHBOARD SCREENSHOT HERE]**
 
 The results show that Alpha-Beta pruning significantly reduced the amount of search required. While Minimax explored 549,946 nodes, Alpha-Beta explored only 18,297 nodes, eliminating most branches that could not influence the final decision. This resulted in a pruning efficiency of 96.67%. Even though the measured decision time was similar, Alpha-Beta achieved the same optimal decision while evaluating far fewer game states, demonstrating the effectiveness of pruning in adversarial search.
 
