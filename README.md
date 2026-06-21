@@ -38,6 +38,8 @@ The goal is to transform a scrambled 3x3 puzzle into the correct order using the
 
 This module implements an AI opponent for the classic Tic-Tac-Toe game.
 
+<img width="731" height="768" alt="Image" src="https://github.com/user-attachments/assets/b9e32798-e460-4077-8bb2-227add6439a6" />
+
 ### Algorithms Implemented:
 - Minimax Algorithm
 - Alpha-Beta Pruning Optimization
