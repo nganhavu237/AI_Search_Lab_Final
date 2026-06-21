@@ -16,7 +16,7 @@ These modules showcase how AI can solve structured problems and make intelligent
 
 This module solves the classic 8-puzzle problem using multiple search algorithms.
 
-<img width="1798" height="1606" alt="Image" src="https://github.com/user-attachments/assets/e4c12952-628a-4e9e-a187-7f0cb92cdc85" />
+<img width="433" height="781" alt="Image" src="https://github.com/user-attachments/assets/aa05016d-94ac-4f69-9f35-e2cf073c3b7c" />
 
 ### Algorithms Implemented:
 - Breadth-First Search (BFS)
